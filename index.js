@@ -1,10 +1,4 @@
-const recipe = require('./triggers/recipe');
-
-const addAuthHeader = (request, z, bundle) => {
-  // Hard-coded auth header just for demo
-  request.headers['X-API-Key'] = 'secret';
-  return request;
-};
+const license = require('./creates/license');
 
 // Now we can roll up all our behaviors in an App.
 const App = {
@@ -13,22 +7,27 @@ const App = {
   version: require('./package.json').version,
   platformVersion: require('zapier-platform-core').version,
 
-  beforeRequest: [addAuthHeader],
+  beforeRequest: [
+  ],
 
-  afterResponse: [],
+  afterResponse: [
+  ],
 
-  resources: {},
+  resources: {
+  },
 
   // If you want your trigger to show up, you better include it here!
   triggers: {
-    [recipe.key]: recipe
   },
 
   // If you want your searches to show up, you better include it here!
-  searches: {},
+  searches: {
+  },
 
   // If you want your creates to show up, you better include it here!
-  creates: {}
+  creates: {
+    [license.key]: license
+  }
 };
 
 // Finally, export the app.

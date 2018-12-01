@@ -1,8 +1,8 @@
 {
-  "name": "zapier-platform-example-app-trigger",
+  "name": "zapier-platform-example-app-create",
   "version": "1.0.0",
   "description": "An example app for the Zapier platform.",
-  "repository": "zapier/zapier-platform-example-app-trigger",
+  "repository": "zapier/zapier-platform-example-app-create",
   "homepage": "https://zapier.com/",
   "author": "Bryan Helmig <bryan@zapier.com>",
   "license": "BSD-3-Clause",
@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "mocha": "^5.2.0",
+    "nock": "^10.0.2",
     "should": "^13.2.0"
   }
 }
