@@ -6,6 +6,10 @@ const createLicense = (z, bundle) => {
             productId: bundle.inputData.productId,
             key: buildLicenseKey(bundle.inputData.userId)
         }),
+        headers: {
+            'Content-Type': 'application/json',
+            'accept': ['application/json']
+        }
     });
 
     return promise.then((response) => JSON.parse(response.content));
