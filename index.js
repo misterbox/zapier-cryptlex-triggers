@@ -1,19 +1,5 @@
 const license = require('./creates/license');
-
-const auth = {
-  type: 'custom',
-  test: {
-    url: 'https://api.cryptlex.com/v3/me'
-  },
-  fields: [
-    {
-      key: 'api_key',
-      type: 'string',
-      required: true,
-      helpText: 'Created under Api > Personal Access Tokens'
-    }
-  ]
-}
+const auth = require('./authentication');
 
 const addApiKeyToHeader = (request, z, bundle) => {
   request.headers.Authorization = `Bearer ${bundle.authData.api_key}`;
