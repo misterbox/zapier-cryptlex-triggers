@@ -1,6 +1,7 @@
 const licenseCreate = require('./creates/create-license');
 const licenseSuspend = require('./creates/suspend-license');
 const auth = require('./authentication');
+const requestMiddleware = require('./request-middleware');
 
 const addApiKeyToHeader = (request, z, bundle) => {
   request.headers.Authorization = `Bearer ${bundle.authData.api_key}`;
@@ -18,7 +19,8 @@ const App = {
   authentication: auth,
 
   beforeRequest: [
-    addApiKeyToHeader
+    addApiKeyToHeader,
+    requestMiddleware
   ],
 
   afterResponse: [

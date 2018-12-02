@@ -7,11 +7,7 @@ const suspendLicense = (z, bundle) => {
         url: `${process.env.CRYPTLEX_API}/licenses/${licenseKey}`,
         method: 'POST',
         body: JSON.stringify({
-        }),
-        headers: {
-            'Content-Type': 'application/json',
-            'accept': ['application/json']
-        }
+            })
     });
 
     return promise.then((response) => JSON.parse(response.content));

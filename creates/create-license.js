@@ -6,13 +6,9 @@ const createLicense = (z, bundle) => {
         url: `${process.env.CRYPTLEX_API}/licenses`,
         method: 'POST',
         body: JSON.stringify({
-            productId: bundle.inputData.productId,
-            key: buildLicenseKey(bundle.inputData.userId)
-        }),
-        headers: {
-            'Content-Type': 'application/json',
-            'accept': ['application/json']
-        }
+                productId: bundle.inputData.productId,
+                key: buildLicenseKey(bundle.inputData.userId)
+            })
     });
 
     return promise.then((response) => JSON.parse(response.content));
