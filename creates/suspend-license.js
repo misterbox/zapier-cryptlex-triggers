@@ -1,13 +1,12 @@
 const zapier = require('zapier-platform-core');
 zapier.tools.env.inject();
 
-const createLicense = (z, bundle) => {
+const suspendLicense = (z, bundle) => {
+    let licenseKey = buildLicenseKey(bundle.inputData.userId);
     const promise = z.request({
-        url: `${process.env.CRYPTLEX_API}/licenses`,
+        url: `${process.env.CRYPTLEX_API}/licenses/${licenseKey}`,
         method: 'POST',
         body: JSON.stringify({
-            productId: bundle.inputData.productId,
-            key: buildLicenseKey(bundle.inputData.userId)
         }),
         headers: {
             'Content-Type': 'application/json',
@@ -23,26 +22,22 @@ const buildLicenseKey = (input) => {
 }
 
 module.exports = {
-    key: 'license_create',
+    key: 'license_suspend',
     noun: 'License',
     display: {
-        label: 'Create License',
-        description: 'Creates a new Cryptlex license.'
+        label: 'Suspend License',
+        description: 'Suspends a Cryptlex license.'
     },
 
     operation: {
         inputFields: [
             {
-                key: 'productId',
-                required: true,
-                helpText: 'The product ID for which a license will be created'
-            },
-            {
                 key: 'userId',
                 required: true,
-                label: 'User ID'
+                label: 'User ID',
+                helpText: 'The user ID for the license to suspend'
             }
         ],
-        perform: createLicense
+        perform: suspendLicense
     }
-};
+}
