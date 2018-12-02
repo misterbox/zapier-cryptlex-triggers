@@ -32,13 +32,11 @@ module.exports = {
             {
                 key: 'productId',
                 required: true,
-                type: 'string',
                 helpText: 'The product ID for which a license will be created'
             },
             {
                 key: 'userId',
                 required: true,
-                type: 'string',
                 label: 'User ID'
             }
         ],
