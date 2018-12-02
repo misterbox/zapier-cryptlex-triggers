@@ -5,8 +5,9 @@ const suspendLicense = (z, bundle) => {
     let licenseKey = buildLicenseKey(bundle.inputData.userId);
     const promise = z.request({
         url: `${process.env.CRYPTLEX_API}/licenses/${licenseKey}`,
-        method: 'POST',
+        method: 'PATCH',
         body: JSON.stringify({
+                suspended: true
             })
     });
 

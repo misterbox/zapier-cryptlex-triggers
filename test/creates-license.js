@@ -11,20 +11,21 @@ const nock = require('nock');
 describe('creates', () => {
     describe('create license', () => {
         it('should create a new license with expected key', (done) => {
+            const userId = 'user 1';
             const bundle = {
                 inputData: {
                     productId: 'product 1',
-                    userId: 'user 1'
+                    userId: userId
                 }
             };
 
             nock(process.env.CRYPTLEX_API)
                 .post('/licenses', (body) => {
-                    return body.key == 'user 1_user 1';
-                })
+                return body.key == `${userId}_${userId}`;
+            })
                 .reply(200, 
                     {
-                        key: 'user 1_user 1',
+                        key: `${userId}_${userId}`,
                         productId: 'product 1'
                     }
                 );
@@ -39,14 +40,35 @@ describe('creates', () => {
         });
     });
 
-    xdescribe('suspend license', () => {
-        const bundle = {
-            inputData: {
-                userId: 'abc123'
-            }
-        };
+    describe('suspend license', () => {
+        it('should suspend a license with expected key', (done) => {
+            const userId = 'abc123';
+            const expectedLicenseKey = `${userId}_${userId}`;
+            const bundle = {
+                inputData: {
+                    userId: userId
+                }
+            };
 
-        nock(process.env.CRYPTLEX_API)
-            .post('/licenses')
+            nock(process.env.CRYPTLEX_API)
+                .patch(`/licenses/${expectedLicenseKey}`, (body) => {
+                    return body.suspended == true;
+                })
+                .reply(200, 
+                    {
+                        key: `${expectedLicenseKey}`,
+                        suspended: true
+                    }
+                );
+
+            appTester(App.creates.license_suspend.operation.perform, bundle)
+                .then((result) => {
+                    result.key.should.eql(expectedLicenseKey);
+                    result.suspended.should.eql(true);
+
+                    done();
+                })
+                .catch(done);
+        });
     });
 });
