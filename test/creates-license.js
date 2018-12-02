@@ -27,7 +27,7 @@ describe('creates', () => {
                 }
             );
 
-        appTester(App.creates.license.operation.perform, bundle)
+        appTester(App.creates.license_create.operation.perform, bundle)
             .then((result) => {
                 result.should.have.property('productId');
                 done();

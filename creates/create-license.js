@@ -20,7 +20,7 @@ const buildLicenseKey = (input) => {
 }
 
 module.exports = {
-    key: 'license',
+    key: 'license_create',
     noun: 'License',
     display: {
         label: 'Create License',

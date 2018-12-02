@@ -1,4 +1,4 @@
-const license = require('./creates/license');
+const licenseCreate = require('./creates/create-license');
 const auth = require('./authentication');
 
 const addApiKeyToHeader = (request, z, bundle) => {
@@ -36,7 +36,7 @@ const App = {
 
   // If you want your creates to show up, you better include it here!
   creates: {
-    [license.key]: license
+    [licenseCreate.key]: licenseCreate
   }
 };
 
