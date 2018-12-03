@@ -2,6 +2,7 @@ require('should');
 
 const zapier = require('zapier-platform-core');
 const constants = require('../constants');
+const buildLicenseKey = require('../utilities/license-key-builder');
 
 const App = require('..');
 const appTester = zapier.createAppTester(App);
@@ -12,6 +13,7 @@ describe('creates', () => {
     describe('create license', () => {
         it('should create a new license with expected key', (done) => {
             const userId = 'user 1';
+            const expectedLicenseKey = buildLicenseKey(userId);
             const bundle = {
                 inputData: {
                     productId: 'product 1',
@@ -21,11 +23,11 @@ describe('creates', () => {
 
             nock(constants.CRYPTLEX_API)
                 .post('/licenses', (body) => {
-                return body.key == `${userId}_${userId}`;
+                return body.key == `${expectedLicenseKey}`;
             })
                 .reply(200, 
                     {
-                        key: `${userId}_${userId}`,
+                        key: `${expectedLicenseKey}`,
                         productId: 'product 1'
                     }
                 );
@@ -33,7 +35,7 @@ describe('creates', () => {
             appTester(App.creates.license_create.operation.perform, bundle)
                 .then((result) => {
                     result.should.have.property('productId');
-                    result.key.should.eql('user 1_user 1');
+                    result.key.should.eql(`${expectedLicenseKey}`);
                     done();
                 })
                 .catch(done);
@@ -43,7 +45,7 @@ describe('creates', () => {
     describe('suspend license', () => {
         it('should suspend a license with expected key', (done) => {
             const userId = 'abc123';
-            const expectedLicenseKey = `${userId}_${userId}`;
+            const expectedLicenseKey = buildLicenseKey(userId);
             const bundle = {
                 inputData: {
                     userId: userId

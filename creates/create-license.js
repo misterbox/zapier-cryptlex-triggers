@@ -1,4 +1,5 @@
 const constants = require('../constants');
+const buildLicenseKey = require('../utilities/license-key-builder');
 
 const createLicense = (z, bundle) => {
     const promise = z.request({
@@ -11,10 +12,6 @@ const createLicense = (z, bundle) => {
     });
 
     return promise.then((response) => JSON.parse(response.content));
-}
-
-const buildLicenseKey = (input) => {
-    return `${input}_${input}`;
 }
 
 module.exports = {
