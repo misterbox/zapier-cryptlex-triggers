@@ -9,6 +9,16 @@ const addApiKeyToHeader = (request, z, bundle) => {
   return request;
 }
 
+const handleHttpError = (response, z) => {
+  if (response.status >= 400) {
+    z.console.log(`Status: ${response.status}`);
+    z.console.log(`Content: ${response.content}`);
+    z.console.log(`Request: ${JSON.stringify(response.request)}`);
+  }
+
+  return response;
+}
+
 // Now we can roll up all our behaviors in an App.
 const App = {
   // This is just shorthand to reference the installed dependencies you have. Zapier will
@@ -24,6 +34,7 @@ const App = {
   ],
 
   afterResponse: [
+    handleHttpError
   ],
 
   resources: {

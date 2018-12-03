@@ -1,7 +1,7 @@
 require('should');
 
 const zapier = require('zapier-platform-core');
-zapier.tools.env.inject();
+const constants = require('../constants');
 
 const App = require('..');
 const appTester = zapier.createAppTester(App);
@@ -19,7 +19,7 @@ describe('creates', () => {
                 }
             };
 
-            nock(process.env.CRYPTLEX_API)
+            nock(constants.CRYPTLEX_API)
                 .post('/licenses', (body) => {
                 return body.key == `${userId}_${userId}`;
             })
@@ -50,7 +50,7 @@ describe('creates', () => {
                 }
             };
 
-            nock(process.env.CRYPTLEX_API)
+            nock(constants.CRYPTLEX_API)
                 .patch(`/licenses/${expectedLicenseKey}`, (body) => {
                     return body.suspended == true;
                 })

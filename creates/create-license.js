@@ -1,9 +1,8 @@
-const zapier = require('zapier-platform-core');
-zapier.tools.env.inject();
+const constants = require('../constants');
 
 const createLicense = (z, bundle) => {
     const promise = z.request({
-        url: `${process.env.CRYPTLEX_API}/licenses`,
+        url: `${constants.CRYPTLEX_API}/licenses`,
         method: 'POST',
         body: JSON.stringify({
                 productId: bundle.inputData.productId,

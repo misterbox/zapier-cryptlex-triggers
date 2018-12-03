@@ -1,10 +1,9 @@
-const zapier = require('zapier-platform-core');
-zapier.tools.env.inject();
+const constants = require('../constants');
 
 const suspendLicense = (z, bundle) => {
     let licenseKey = buildLicenseKey(bundle.inputData.userId);
     const promise = z.request({
-        url: `${process.env.CRYPTLEX_API}/licenses/${licenseKey}`,
+        url: `${constants.CRYPTLEX_API}/licenses/${licenseKey}`,
         method: 'PATCH',
         body: JSON.stringify({
                 suspended: true
