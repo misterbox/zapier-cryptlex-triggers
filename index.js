@@ -1,5 +1,6 @@
 const licenseCreate = require('./creates/create-license');
 const licenseSuspend = require('./creates/suspend-license');
+const licenseReactivate = require('./creates/reactivate-license');
 const auth = require('./authentication');
 const requestMiddleware = require('./request-middleware');
 
@@ -51,7 +52,8 @@ const App = {
   // If you want your creates to show up, you better include it here!
   creates: {
     [licenseCreate.key]: licenseCreate,
-    [licenseSuspend.key]: licenseSuspend
+    [licenseSuspend.key]: licenseSuspend,
+    [licenseReactivate.key]: licenseReactivate
   }
 };
 
