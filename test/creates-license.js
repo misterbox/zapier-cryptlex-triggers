@@ -46,6 +46,7 @@ describe('creates', () => {
         it('should suspend a license with expected key', (done) => {
             const userId = 'abc123';
             const expectedLicenseKey = buildLicenseKey(userId);
+            const expectedLicenseId = 'efg456';
             const bundle = {
                 inputData: {
                     userId: userId
@@ -53,7 +54,7 @@ describe('creates', () => {
             };
 
             nock(constants.CRYPTLEX_API)
-                .patch(`/licenses/${expectedLicenseKey}`, (body) => {
+                .patch(`/licenses/${expectedLicenseId}`, (body) => {
                     return body.suspended == true;
                 })
                 .reply(200, 
@@ -61,6 +62,16 @@ describe('creates', () => {
                         key: `${expectedLicenseKey}`,
                         suspended: true
                     }
+                );
+
+            nock(constants.CRYPTLEX_API)
+                .get(`/licenses`)
+                .query({key: expectedLicenseKey})
+                .reply(200,
+                    [{
+                        key: expectedLicenseKey,
+                        id: expectedLicenseId
+                    }]
                 );
 
             appTester(App.creates.license_suspend.operation.perform, bundle)
