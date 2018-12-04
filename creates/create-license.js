@@ -1,5 +1,5 @@
 const constants = require('../constants');
-const buildLicenseKey = require('../utilities/license-key-builder');
+const utils = require('../utils');
 
 const createLicense = (z, bundle) => {
     const promise = z.request({
@@ -7,7 +7,7 @@ const createLicense = (z, bundle) => {
         method: 'POST',
         body: JSON.stringify({
                 productId: bundle.inputData.productId,
-                key: buildLicenseKey(bundle.inputData.userId)
+                key: utils.buildLicenseKey(bundle.inputData.userId)
             })
     });
 

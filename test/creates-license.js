@@ -2,7 +2,7 @@ require('should');
 
 const zapier = require('zapier-platform-core');
 const constants = require('../constants');
-const buildLicenseKey = require('../utilities/license-key-builder');
+const utils = require('../utils');
 
 const App = require('..');
 const appTester = zapier.createAppTester(App);
@@ -13,7 +13,7 @@ describe('creates', () => {
     describe('create license', () => {
         it('should create a new license with expected key', (done) => {
             const userId = 'user 1';
-            const expectedLicenseKey = buildLicenseKey(userId);
+            const expectedLicenseKey = utils.buildLicenseKey(userId);
             const bundle = {
                 inputData: {
                     productId: 'product 1',
@@ -45,7 +45,7 @@ describe('creates', () => {
     describe('suspend license', () => {
         it('should suspend a license with expected key', (done) => {
             const userId = 'abc123';
-            const expectedLicenseKey = buildLicenseKey(userId);
+            const expectedLicenseKey = utils.buildLicenseKey(userId);
             const expectedLicenseId = 'efg456';
             const bundle = {
                 inputData: {

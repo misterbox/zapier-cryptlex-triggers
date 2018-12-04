@@ -1,17 +1,10 @@
 const constants = require('../constants');
-const buildLicenseKey = require('../utilities/license-key-builder');
-
-const getLicenseId = (licenseKey, z) => {
-    return z.request({
-        url: `${constants.CRYPTLEX_API}/licenses?key=${licenseKey}`,
-        method: 'GET',
-    })
-}
+const utils = require('../utils');
 
 const suspendLicense = (z, bundle) => {
-    let licenseKey = buildLicenseKey(bundle.inputData.userId);
+    let licenseKey = utils.buildLicenseKey(bundle.inputData.userId);
 
-    const licenseIdPromise = getLicenseId(licenseKey, z);
+    const licenseIdPromise = utils.getLicenseId(licenseKey, z);
 
     return licenseIdPromise.then((response) => {
         let licenseIdResult = JSON.parse(response.content);
@@ -26,7 +19,7 @@ const suspendLicense = (z, bundle) => {
             })
             .then((suspendResponse) => JSON.parse(suspendResponse.content));
     });
-}
+};
 
 module.exports = {
     key: 'license_suspend',
