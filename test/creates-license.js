@@ -84,4 +84,47 @@ describe('creates', () => {
                 .catch(done);
         });
     });
+
+    describe('reactivate license', () => {
+        it('should reactivate a license with expected key', (done) => {
+            const userId = 'zyx432';
+            const expectedLicenseKey = utils.buildLicenseKey(userId);
+            const expectedLicenseId = 'IAmALicense';
+            const bundle = {
+                inputData: {
+                    userId: userId
+                }
+            };
+
+            nock(constants.CRYPTLEX_API)
+                .patch(`/licenses/${expectedLicenseId}`, (body) => {
+                    return body.suspended == false;
+                })
+                .reply(200, 
+                    {
+                        key: `${expectedLicenseKey}`,
+                        suspended: false
+                    }
+                );
+
+            nock(constants.CRYPTLEX_API)
+                .get(`/licenses`)
+                .query({key: expectedLicenseKey})
+                .reply(200,
+                    [{
+                        key: expectedLicenseKey,
+                        id: expectedLicenseId
+                    }]
+                );
+
+            appTester(App.creates.license_reactivate.operation.perform, bundle)
+                .then((result) => {
+                    result.key.should.eql(expectedLicenseKey);
+                    result.suspended.should.eql(false);
+
+                    done();
+                })
+                .catch(done);
+        });
+    });
 });
