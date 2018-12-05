@@ -7,7 +7,24 @@ const createLicense = (z, bundle) => {
         method: 'POST',
         body: JSON.stringify({
                 productId: bundle.inputData.productId,
-                key: utils.buildLicenseKey(bundle.inputData.userId)
+                key: utils.buildLicenseKey(bundle.inputData.userId),
+                metadata: [
+                    {
+                        required: true,
+                        key: 'firstName',
+                        value: `${bundle.inputData.firstName}`
+                    },
+                    {
+                        required: true,
+                        key: 'lastName',
+                        value: `${bundle.inputData.lastName}`
+                    },
+                    {
+                        required: true,
+                        key: 'email',
+                        value: `${bundle.inputData.email}`
+                    }
+                ]
             })
     });
 
@@ -32,7 +49,23 @@ module.exports = {
             {
                 key: 'userId',
                 required: true,
-                label: 'User ID'
+                label: 'User ID',
+                helpText: 'The ChargeBee customer ID'
+            },
+            {
+                key: 'firstName',
+                required: true,
+                label: 'Customer\'s first name'
+            },
+            {
+                key: 'lastName',
+                required: true,
+                label: 'Customer\'s last name'
+            },
+            {
+                key: 'email',
+                required: true,
+                label: 'Customer\'s email address'
             }
         ],
         perform: createLicense

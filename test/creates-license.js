@@ -40,6 +40,70 @@ describe('creates', () => {
                 })
                 .catch(done);
         });
+
+        it('should create a new license with metadata', (done) => {
+            const userId = 'user 1';
+            const expectedUserEmail = 'rick.sanchez@ump.com';
+            const expectedFirstName = 'Rick';
+            const expectedLastName = 'Sanchez';
+            const expectedLicenseKey = utils.buildLicenseKey(userId);
+            const bundle = {
+                inputData: {
+                    productId: 'product 1',
+                    userId: userId,
+                    email: expectedUserEmail,
+                    firstName: expectedFirstName,
+                    lastName: expectedLastName
+                }
+            };
+
+            nock(constants.CRYPTLEX_API)
+                .post('/licenses', (body) => {
+                    return body.metadata != undefined && body.metadata.length == 3;
+                })
+                .reply(200, 
+                    {
+                        key: `${expectedLicenseKey}`,
+                        productId: 'product 1',
+                        metadata: [
+                            {
+                                visible: true,
+                                key: 'firstName',
+                                value: expectedFirstName
+                            },
+                            {
+                                visible: true,
+                                key: 'lastName',
+                                value: expectedLastName
+                            },
+                            {
+                                visible: true,
+                                key: 'email',
+                                value: expectedUserEmail
+                            }
+                        ]
+                    }
+                );
+
+            appTester(App.creates.license_create.operation.perform, bundle)
+                .then((result) => {
+                    result.should.have.property('metadata');
+                    const metaData = result.metadata;
+                    const firstNameData = metaData[0];
+                    const lastNameData = metaData[1];
+                    const emailData = metaData[2];
+
+                    firstNameData.key.should.eql('firstName');
+                    firstNameData.value.should.eql(expectedFirstName);
+                    lastNameData.key.should.eql('lastName');
+                    lastNameData.value.should.eql(expectedLastName);
+                    emailData.key.should.eql('email');
+                    emailData.value.should.eql(expectedUserEmail);
+
+                    done();
+                })
+                .catch(done);
+        });
     });
 
     describe('suspend license', () => {
