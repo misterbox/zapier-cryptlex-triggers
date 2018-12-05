@@ -10,17 +10,17 @@ const createLicense = (z, bundle) => {
                 key: utils.buildLicenseKey(bundle.inputData.userId),
                 metadata: [
                     {
-                        required: true,
+                        visible: true,
                         key: 'firstName',
                         value: `${bundle.inputData.firstName}`
                     },
                     {
-                        required: true,
+                        visible: true,
                         key: 'lastName',
                         value: `${bundle.inputData.lastName}`
                     },
                     {
-                        required: true,
+                        visible: true,
                         key: 'email',
                         value: `${bundle.inputData.email}`
                     }
