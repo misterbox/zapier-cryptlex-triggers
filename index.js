@@ -1,6 +1,7 @@
 const licenseCreate = require('./creates/create-license');
 const licenseSuspend = require('./creates/suspend-license');
 const licenseReactivate = require('./creates/reactivate-license');
+const licenseRenew = require('./creates/renew-license');
 const auth = require('./authentication');
 const requestMiddleware = require('./request-middleware');
 
@@ -53,7 +54,8 @@ const App = {
   creates: {
     [licenseCreate.key]: licenseCreate,
     [licenseSuspend.key]: licenseSuspend,
-    [licenseReactivate.key]: licenseReactivate
+    [licenseReactivate.key]: licenseReactivate,
+    [licenseRenew.key]: licenseRenew
   }
 };
 

@@ -191,4 +191,45 @@ describe('creates', () => {
                 .catch(done);
         });
     });
+
+    describe('renew license', () => {
+        it('should renew a license with expected key', (done) => {
+            const userId = 'zyx432';
+            const expectedLicenseKey = utils.buildLicenseKey(userId);
+            const expectedLicenseId = 'IAmALicense';
+            const bundle = {
+                inputData: {
+                    userId: userId
+                }
+            };
+
+            nock(constants.CRYPTLEX_API)
+                .post(`/licenses/${expectedLicenseId}/renew`)
+                .reply(200, 
+                    {
+                        key: `${expectedLicenseKey}`,
+                        id: `${expectedLicenseId}`
+                    }
+                );
+
+            nock(constants.CRYPTLEX_API)
+                .get(`/licenses`)
+                .query({key: expectedLicenseKey})
+                .reply(200,
+                    [{
+                        key: expectedLicenseKey,
+                        id: expectedLicenseId
+                    }]
+                );
+
+            appTester(App.creates.license_renew.operation.perform, bundle)
+                .then((result) => {
+                    result.key.should.eql(expectedLicenseKey);
+                    result.id.should.eql(expectedLicenseId);
+
+                    done();
+                })
+                .catch(done);
+        });
+    });
 });
